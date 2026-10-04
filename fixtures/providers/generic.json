@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "record_key": "G-7007",
+      "finding_title": "Critical data exposure",
+      "details": "Sensitive data exposure on an accepted-risk application.",
+      "cve_id": "CVE-2017-7777",
+      "risk": "Critical",
+      "asset_ref": "asset-accepted-7",
+      "host_name": "archive.example",
+      "internet_exposed": true,
+      "business_criticality": "critical",
+      "known_exploited": true,
+      "exploit_available": true,
+      "workflow_status": "accepted risk",
+      "remediation": "Schedule upgrade in next maintenance window",
+      "custom_owner_note": "retained unknown field"
+    },
+    {
+      "id": "G-DUP",
+      "title": "Low package issue",
+      "description": "Duplicate export row.",
+      "cve": "CVE-2016-8888",
+      "severity": "Low",
+      "asset_id": "asset-dup-8",
+      "solution": "Upgrade package"
+    },
+    {
+      "id": "G-DUP",
+      "title": "Low package issue",
+      "description": "Duplicate export row.",
+      "cve": "CVE-2016-8888",
+      "severity": "Low",
+      "asset_id": "asset-dup-8",
+      "solution": "Upgrade package"
+    }
+  ]
+}

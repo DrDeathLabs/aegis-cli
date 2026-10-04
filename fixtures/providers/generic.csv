@@ -1,0 +1,2 @@
+issue_id,title,description,cve,severity,asset_id,hostname,internet_exposed,business_criticality,status,compensating_controls,solution,unknown_export_field
+G-CSV-9009,Medium service issue,Service exposure needs mitigation,CVE-2015-9999,Medium,asset-csv-9,csv.example,false,medium,mitigated,network-segmentation,Apply configuration baseline,kept

@@ -1,0 +1,39 @@
+{
+  "vulnerabilities": [
+    {
+      "id": "CS-5005",
+      "name": "Suspected package detection",
+      "description": "The detection was reviewed and is not applicable to this image.",
+      "cve": "CVE-2020-5555",
+      "severity": "High",
+      "aid": "asset-dev-5",
+      "hostname": "builder-5.example",
+      "exploitStatus": "not_exploited",
+      "status": "false_positive",
+      "riskScore": 650,
+      "business_criticality": "high"
+    },
+    {
+      "id": "CS-DUP",
+      "name": "Repeated package issue",
+      "description": "Repeated export row for the same finding.",
+      "cve": "CVE-2019-6666",
+      "severity": "Low",
+      "aid": "asset-dev-5",
+      "hostname": "builder-5.example",
+      "status": "open",
+      "solution": "Upgrade build image"
+    },
+    {
+      "id": "CS-DUP",
+      "name": "Repeated package issue",
+      "description": "Repeated export row for the same finding.",
+      "cve": "CVE-2019-6666",
+      "severity": "Low",
+      "aid": "asset-dev-5",
+      "hostname": "builder-5.example",
+      "status": "open",
+      "solution": "Upgrade build image"
+    }
+  ]
+}

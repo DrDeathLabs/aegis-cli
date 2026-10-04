@@ -1,0 +1,17 @@
+{
+  "vulnerabilities": [
+    {
+      "vulnerabilityId": "MDE-4004",
+      "vulnerabilityName": "Outdated client library",
+      "description": "The package is below the supported baseline.",
+      "cve": "CVE-2021-4444",
+      "severity": "Medium",
+      "machineId": "machine-4",
+      "computerDnsName": "workstation-4.example",
+      "exposedToInternet": false,
+      "deviceValue": "low",
+      "exposureScore": 280,
+      "recommendedSecurityUpdate": "Install the monthly security update"
+    }
+  ]
+}

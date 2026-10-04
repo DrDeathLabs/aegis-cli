@@ -1,0 +1,19 @@
+{
+  "results": [
+    {
+      "vulnerability_id": "R7-3003",
+      "vulnerability_title": "SQL injection in reporting endpoint",
+      "description": "SQL injection permits unauthorized data access.",
+      "cve": "CVE-2022-3333",
+      "severity": "High",
+      "riskScore": 780,
+      "epss": 0.55,
+      "asset_id": "asset-reporting-3",
+      "hostname": "reports.example",
+      "internet_exposed": false,
+      "business_criticality": "medium",
+      "exploitAvailable": false,
+      "solution": "Deploy reporting service 8.7.2"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NessusClientData_v2>
+  <Report name="fixture">
+    <ReportHost name="legacy-6.example">
+      <HostProperties><tag name="host-ip">203.0.113.16</tag></HostProperties>
+      <ReportItem port="443" protocol="tcp" severity="2" pluginID="N-6006" pluginName="Service information disclosure">
+        <description>Service information is disclosed.</description>
+        <cve>CVE-2018-6666</cve>
+        <cvss3_base_score>5.3</cvss3_base_score>
+        <risk_factor>Medium</risk_factor>
+        <status>closed</status>
+        <solution>Apply the vendor update.</solution>
+        <exploitability>False</exploitability>
+      </ReportItem>
+    </ReportHost>
+  </Report>
+</NessusClientData_v2>

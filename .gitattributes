@@ -1,0 +1,14 @@
+# Keep local acceptance work, benchmark runs, and Trident reference material
+# out of GitHub-generated source archives for the v0.1 release.
+artifacts/ export-ignore
+_reference/ export-ignore
+AEGIS_*_HANDOFF.md export-ignore
+AEGIS_*_PROMPT.md export-ignore
+AEGIS_*_RESULT.md export-ignore
+AEGIS_*_DISCOVERY*.md export-ignore
+AEGIS_*_AUDIT*.md export-ignore
+AEGIS_*_GAP_ANALYSIS.md export-ignore
+docs/TRIDENT_REUSE_AUDIT.md export-ignore
+docs/REQUIREMENT_TO_EVIDENCE.md export-ignore
+tests/test_two_defect_repair.py export-ignore
+tests/fixtures/two_defect_repair/ export-ignore

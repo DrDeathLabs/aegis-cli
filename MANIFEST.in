@@ -1,0 +1,17 @@
+# Source distributions include the public documentation and license notices,
+# but not local run data, private validation artifacts, or partial test suites.
+include CHANGELOG.md SECURITY.md SUPPORT.md CONTRIBUTING.md LICENSE NOTICE COMMERCIAL.md THIRD-PARTY-NOTICES.md
+include docs/README.md docs/INSTALLATION.md docs/QUICK_START.md docs/CLI_REFERENCE.md
+include docs/PROVIDERS.md docs/INGESTION.md docs/ARCHITECTURE.md docs/PRIORITIZATION.md
+include docs/DISPOSITIONS.md docs/CORRELATION.md docs/REMEDIATION.md
+include docs/LONGITUDINAL_ANALYSIS.md docs/PROVENANCE_AND_REPLAY.md docs/OUTPUT_FORMATS.md
+include docs/CONFIGURATION.md docs/SECURITY_MODEL.md docs/FEATURE_STATUS.md
+include docs/LIMITATIONS.md docs/VALIDATION.md docs/PERFORMANCE.md docs/CI_CD.md
+include docs/DEVELOPMENT.md docs/TROUBLESHOOTING.md docs/OPEN_SOURCE_READINESS.md
+include docs/CANONICAL_SCHEMA.md docs/PRIORITY_METHODOLOGY.md docs/DISPOSITION_METHODOLOGY.md
+include .github/releases/0.1.0.md
+prune tests
+prune fixtures
+prune artifacts
+prune _reference
+global-exclude *.jsonl *.sqlite3 *.db

@@ -1,0 +1,13 @@
+{
+  "resources": [
+    {
+      "id": "spotlight-occurrence-001",
+      "aid": "aid-001",
+      "host_info": {"hostname": "workstation.example", "local_ip": "192.0.2.20", "asset_criticality": "high"},
+      "cve": {"id": "CVE-2024-3094", "is_cisa_kev": true, "remediation_level": "official-fix"},
+      "risk": {"score": 9.8, "severity": "critical"},
+      "exposure": {"internet_exposed": true},
+      "exploit": {"status": "active", "exploited": true}
+    }
+  ]
+}

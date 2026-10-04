@@ -1,0 +1,33 @@
+{
+  "findings": [
+    {
+      "pluginID": "T-1001",
+      "pluginName": "Internet-facing remote code execution",
+      "description": "Remote code execution is exploitable without authentication.",
+      "cve": "CVE-2024-0001",
+      "cwe": "CWE-78",
+      "severity": "Critical",
+      "cvss3BaseScore": 9.8,
+      "cvss3Vector": "AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H",
+      "vpr": 9.9,
+      "exploitAvailable": true,
+      "exploitedInWild": true,
+      "asset": {"uuid": "asset-prod-1", "hostname": "payments.example", "ipv4": "203.0.113.10"},
+      "internetExposed": true,
+      "businessCriticality": "critical",
+      "solution": "Upgrade payments-gateway to 4.2.1"
+    },
+    {
+      "pluginID": "T-2002",
+      "pluginName": "Recurring weak TLS configuration",
+      "description": "Weak cipher configuration remains present.",
+      "cve": "CVE-2023-1111",
+      "severity": "Medium",
+      "vpr": 5.0,
+      "asset": {"uuid": "asset-internal-2", "hostname": "batch.example"},
+      "businessCriticality": "low",
+      "recurrence": 3,
+      "solution": "Apply TLS baseline"
+    }
+  ]
+}

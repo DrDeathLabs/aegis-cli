@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.11"
+      - name: Install project and validation tools
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev]" build twine pip-audit
+      - name: Ruff
+        run: ruff check src tests scripts
+      - name: Compile
+        run: python -m compileall -q src tests scripts
+      - name: Unit and integration tests
+        run: pytest
+      - name: Dependency vulnerability audit
+        run: pip-audit
+      - name: Build wheel and source distribution
+        run: python -m build --outdir dist
+      - name: Validate distribution metadata
+        run: twine check dist/*
+      - name: Install built wheel in a clean environment
+        run: |
+          python -m venv .verify-wheel
+          .verify-wheel/bin/python -m pip install --upgrade pip setuptools
+          .verify-wheel/bin/python -m pip install dist/*.whl
+          .verify-wheel/bin/python -m pip check
+          .verify-wheel/bin/aegis --version
+          .verify-wheel/bin/aegis --help
+          .verify-wheel/bin/aegis run-all fixtures/providers --run-dir "$RUNNER_TEMP/aegis-ci-run"
+          .verify-wheel/bin/aegis report --run-dir "$RUNNER_TEMP/aegis-ci-run" --format json --output "$RUNNER_TEMP/aegis-ci-run/report.json"
+          .verify-wheel/bin/aegis export csv --run-dir "$RUNNER_TEMP/aegis-ci-run" --output "$RUNNER_TEMP/aegis-ci-run/report.csv"
+          .verify-wheel/bin/aegis export html --run-dir "$RUNNER_TEMP/aegis-ci-run" --output "$RUNNER_TEMP/aegis-ci-run/report.html"
+          .verify-wheel/bin/aegis report --run-dir "$RUNNER_TEMP/aegis-ci-run" --format table
+          .verify-wheel/bin/aegis findings --run-dir "$RUNNER_TEMP/aegis-ci-run" --limit 10
+          .verify-wheel/bin/aegis replay-export --findings "$RUNNER_TEMP/aegis-ci-run/triaged.jsonl" --output "$RUNNER_TEMP/aegis-ci-run/replay.json"
+          .verify-wheel/bin/aegis replay-validate "$RUNNER_TEMP/aegis-ci-run/replay.json"
+      - name: Install source distribution in a clean environment
+        run: |
+          python -m venv .verify-sdist
+          .verify-sdist/bin/python -m pip install --upgrade pip setuptools
+          .verify-sdist/bin/python -m pip install dist/*.tar.gz
+          .verify-sdist/bin/python -m pip check
+          .verify-sdist/bin/aegis --version
+          .verify-sdist/bin/aegis --help

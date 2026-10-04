@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NessusClientData_v2><Report><ReportHost name="nessus.example"><HostProperties>
+  <tag name="host-ip">192.0.2.50</tag><tag name="asset-criticality">high</tag>
+  <tag name="business-criticality">critical</tag><tag name="internet-exposed">false</tag>
+  <tag name="network-zone">restricted</tag><tag name="compensating-controls">segmentation</tag>
+</HostProperties><ReportItem pluginID="90001" severity="3" port="443" protocol="tcp"><pluginName>Example plugin</pluginName><cve>CVE-2024-5555</cve></ReportItem></ReportHost></Report></NessusClientData_v2>

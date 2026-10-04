@@ -1,0 +1,23 @@
+{
+  "id": "spotlight-occurrence-001",
+  "aid": "aid-crowdstrike-001",
+  "host_info": {
+    "hostname": "endpoint-cs-01.example.test",
+    "asset_criticality": "high",
+    "internet_exposure": "direct",
+    "platform_name": "Windows"
+  },
+  "cve": {
+    "id": "CVE-2026-3001",
+    "is_cisa_kev": true,
+    "severity": "critical",
+    "base_score": 9.8,
+    "exploit_status_to_include": "poc",
+    "remediation_level": "official-fix-available",
+    "remediation": "Apply ACTION-CS-3001"
+  },
+  "risk": {"score": 91, "severity": "critical"},
+  "status": "open",
+  "updated_timestamp": "2026-03-02T00:00:00Z",
+  "remediation": {"action_id": "ACTION-CS-3001"}
+}

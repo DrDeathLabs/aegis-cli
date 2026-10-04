@@ -1,0 +1,14 @@
+{
+  "value": [
+    {
+      "id": "machine-001-_-CVE-2020-6494-_-microsoft-_-edge",
+      "cveId": "CVE-2020-6494",
+      "machineId": "machine-001",
+      "fixingKbId": "3185911",
+      "productName": "edge",
+      "productVendor": "microsoft",
+      "productVersion": "81.0.416.77",
+      "severity": "Low"
+    }
+  ]
+}

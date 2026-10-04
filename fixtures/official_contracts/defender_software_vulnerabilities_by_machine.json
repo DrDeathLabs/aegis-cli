@@ -1,0 +1,20 @@
+{
+  "id": "software-vuln-occurrence-001",
+  "deviceId": "device-defender-001",
+  "deviceName": "endpoint-01.example.test",
+  "cveId": "CVE-2026-2001",
+  "vulnerabilitySeverityLevel": "High",
+  "softwareVendor": "Example Vendor",
+  "softwareName": "Example Agent",
+  "softwareVersion": "4.1.0",
+  "recommendedSecurityUpdate": "Install KB5002001",
+  "recommendedSecurityUpdateId": "KB5002001",
+  "securityUpdateAvailable": true,
+  "exploitabilityLevel": "Poc",
+  "recommendationReference": "REC-2001",
+  "firstSeenTimestamp": "2026-02-01T00:00:00Z",
+  "lastSeenTimestamp": "2026-02-02T00:00:00Z",
+  "eventTimestamp": "2026-02-02T01:00:00Z",
+  "osPlatform": "WindowsServer",
+  "osVersion": "2022"
+}
