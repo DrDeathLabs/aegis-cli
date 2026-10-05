@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime, timezone
 
 import click
 
@@ -29,89 +28,7 @@ def _stage_error(run_dir: str, stage: str, error: Exception) -> click.ClickExcep
 @click.group(context_settings={"help_option_names": ["-h", "--help"]})
 @click.version_option(__version__, prog_name="aegis")
 def main() -> None:
-    """Aegis CLI: AI-assisted enterprise vulnerability prioritization."""
-
-
-@main.group("model")
-def model_group() -> None:
-    """Manage local public vulnerability intelligence and ML evidence."""
-
-
-@model_group.command("status")
-def model_status() -> None:
-    """Show local corpus/model state without network access."""
-    from aegis.intelligence.service import status as model_status_data
-    _emit(model_status_data())
-
-
-@model_group.command("path")
-def model_path_command() -> None:
-    """Print the user-local model and feed storage directory."""
-    from aegis.intelligence.paths import data_dir
-    _emit({"data_directory": str(data_dir())})
-
-
-@model_group.command("info")
-def model_info() -> None:
-    """Show validated model metadata and held-out evaluation."""
-    from aegis.intelligence.service import info as model_info_data
-    _emit(model_info_data())
-
-
-@model_group.command("build")
-def model_build() -> None:
-    """Build the local statistical corpus from cached public feed snapshots."""
-    from aegis.intelligence.service import build as build_model_corpus
-    try:
-        _emit(build_model_corpus())
-    except Exception as exc:
-        raise click.ClickException(f"model corpus build failed: {exc}") from exc
-
-
-@model_group.command("train")
-@click.option("--seed", type=click.IntRange(min=0), default=42, show_default=True)
-def model_train(seed: int) -> None:
-    """Train and temporally evaluate the local EPSS-band estimator."""
-    from aegis.intelligence.service import train as train_model
-    try:
-        _emit(train_model(seed=seed))
-    except Exception as exc:
-        raise click.ClickException(f"model training failed: {exc}") from exc
-
-
-@model_group.command("refresh")
-@click.option("--start-year", type=click.IntRange(min=2002), default=None)
-@click.option("--end-year", type=click.IntRange(min=2002), default=None)
-@click.option("--force", is_flag=True, help="Download fresh feed copies even when the local cache is recent.")
-@click.option("--seed", type=click.IntRange(min=0), default=42, show_default=True)
-@click.option("--yes", is_flag=True, help="Skip the confirmation for a network and local-data refresh.")
-def model_refresh(start_year: int | None, end_year: int | None, force: bool, seed: int, yes: bool) -> None:
-    """Download official NVD/EPSS/CISA data, build profiles, train, and evaluate."""
-    from aegis.intelligence.service import refresh as refresh_model
-    current_year = datetime.now(timezone.utc).year
-    end = end_year or current_year
-    start = start_year or max(2002, end - 5)
-    if start > end:
-        raise click.BadParameter("start year must not be later than end year")
-    if not yes:
-        click.confirm(
-            f"Fetch NVD CVE feeds for {start}-{end}, current EPSS and CISA KEV, then rebuild local model data?",
-            abort=True,
-        )
-    try:
-        _emit(refresh_model(start_year=start, end_year=end, force=force, seed=seed))
-    except Exception as exc:
-        raise click.ClickException(f"model refresh failed: {exc}") from exc
-
-
-@model_group.command("reset")
-@click.option("--yes", is_flag=True, help="Confirm deleting Aegis model, corpus, and recognized feed-cache files.")
-def model_reset(yes: bool) -> None:
-    """Delete only Aegis-owned local model/corpus/feed-cache files."""
-    from aegis.intelligence.service import reset as reset_model
-    if not yes:
-        click.confirm("Delete the local Aegis model, corpus, and recognized public-feed caches?", abort=True)
-    _emit(reset_model())
+    """Aegis: explainable enterprise vulnerability prioritization."""
 
 
 @main.command()

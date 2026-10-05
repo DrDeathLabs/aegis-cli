@@ -9,7 +9,7 @@ Every normalized record has `schema_version: aegis-finding-v1` and these top-lev
 | asset | source asset ID, hostname/FQDN, IPs, OS/application/package/version, exposure, criticality, sensitivity, owner, tags |
 | state | first/last seen, recurrence, source status, patch/solution, explicit remediation action ID, vendor remediation/recommendation ID, controls |
 | evidence | basis, field-level values and pointers, conflicts, missing context, warnings, mapping confidence |
-| analysis | independent Council observations, confidence, missing evidence, challenge/conflict notes, model provenance |
+| analysis | independent Council observations, confidence, missing evidence, challenge/conflict notes, analysis-backend provenance |
 | decision | separate `disposition`, deterministic `calculated_priority`, effective queue `effective_priority`, and the compatibility `priority` alias, with drivers and guards |
 
 After triage, `calculated_priority` and `triage.calculated_priority` always retain the deterministic risk result. `effective_priority` and the top-level `priority` compatibility alias are the effective remediation-queue priority: they equal the calculated result only when `triage.active_queue` is true and are `null` for every non-active disposition, including accepted risk and mitigated findings. Disposition is never encoded as P4.

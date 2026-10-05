@@ -10,7 +10,6 @@ This documentation describes the supported v0.1.0 file-first contract. Start wit
 | Prepare and import scanner exports | [Provider contracts](PROVIDERS.md), [Ingestion](INGESTION.md), [Canonical schema](CANONICAL_SCHEMA.md) |
 | Understand system boundaries | [Architecture](ARCHITECTURE.md), [Security model](SECURITY_MODEL.md), [Limitations](LIMITATIONS.md) |
 | Interpret decisions | [Prioritization](PRIORITIZATION.md), [Disposition](DISPOSITIONS.md), [Correlation](CORRELATION.md), [Remediation](REMEDIATION.md) |
-| Review the optional ML layer and public data use | [ML model](ML_MODEL.md), [Model data sources](MODEL_DATA.md) |
 | Compare runs and preserve evidence | [Longitudinal analysis](LONGITUDINAL_ANALYSIS.md), [Provenance and replay](PROVENANCE_AND_REPLAY.md) |
 | Consume generated artifacts | [Output formats](OUTPUT_FORMATS.md), [Configuration](CONFIGURATION.md) |
 | Review maturity and evidence | [Feature status](FEATURE_STATUS.md), [Validation](VALIDATION.md), [Performance](PERFORMANCE.md) |
@@ -19,4 +18,4 @@ This documentation describes the supported v0.1.0 file-first contract. Start wit
 
 ## Product boundary
 
-Aegis is a local vulnerability-management file importer and triage CLI. It does not call commercial scanner APIs in v0.1.0. Mocks and fixtures prove only the exercised offline contract. Public-feed-derived ML and Council observations cannot assign final priority; deterministic triage owns P0–P4. The BSL 1.1 license is source-available and is not an open-source license.
+Aegis is a local, file-first vulnerability-management and triage CLI. It does not call commercial scanner APIs in v0.1.0. Mocks and fixtures prove only the exercised offline contract. The AI Council develops and challenges evidence but cannot assign final priority; deterministic triage owns P0–P4. The BSL 1.1 license is source-available and is not an open-source license.

@@ -18,7 +18,6 @@ from aegis.analysis.schemas import MockModelResponse
 from aegis.analysis.structured import chat_structured
 from aegis.analysis.convergence import convergence
 from aegis.config import settings
-from aegis.intelligence.inference import enrich_finding, load_active_model, load_cwe_profiles
 from aegis.models import DISPOSITIONS
 from aegis.remediation_evidence import remediation_available, remediation_evidence
 from aegis.observability.events import EventSink
@@ -133,32 +132,6 @@ def _analysis_for(finding: dict[str, Any], backend_name: str = "offline") -> dic
     # finding on million-record corpora while preserving phase-A semantics.
     observations.extend(independent_review(item) for item in observation_data)
     observations.append({"role": "Judge", "conclusion": "evidence retained with explicit uncertainty", "confidence": confidence, "evidence_refs": ["original_record", "mapping_confidence"], "conflicts": [], "missing_evidence": missing})
-    ml = finding.get("ml") or {}
-    if ml.get("model_used"):
-        ml_probability = ((ml.get("prediction") or {}).get("elevated_epss_band_probability"))
-        observed_epss = ((ml.get("public_signals") or {}).get("observed_epss"))
-        observed_band = isinstance(observed_epss, (int, float)) and observed_epss >= 0.1
-        model_band = isinstance(ml_probability, (int, float)) and ml_probability >= 0.5
-        mismatch = observed_epss is not None and observed_band != model_band
-        if mismatch:
-            finding["evidence"]["conflicts"].append(
-                "ML estimate differs from the observed EPSS band; the source EPSS value remains independent evidence"
-            )
-        observations.append({
-            "role": "ML Vulnerability Intelligence Reviewer",
-            "conclusion": f"estimated elevated EPSS-band probability={ml_probability}; this is advisory and not an exploitation fact",
-            "confidence": ml.get("confidence", 0.0),
-            "evidence_refs": ["vulnerability.cve", "vulnerability.cwe", "vulnerability.cvss_scores", "vulnerability.cvss_vectors"],
-            "conflicts": ["model estimate differs from observed EPSS band"] if mismatch else [],
-            "missing_evidence": ml.get("missing_features", []),
-        })
-    else:
-        observations.append({
-            "role": "ML Vulnerability Intelligence Reviewer",
-            "conclusion": f"model evidence unavailable: {ml.get('status', 'not supplied')}",
-            "confidence": 0.0, "evidence_refs": [], "conflicts": [],
-            "missing_evidence": ml.get("missing_features", []),
-        })
     observations.append({"role": "Red Team / Challenge Reviewer", "conclusion": "cross-finding challenge deferred until correlation", "confidence": 0.8, "evidence_refs": ["original_record"], "conflicts": [], "missing_evidence": []})
     if vuln.get("severity_normalized") and vuln.get("vendor_risk_score") is not None:
         score = float(vuln["vendor_risk_score"])
@@ -173,11 +146,7 @@ def _analysis_for(finding: dict[str, Any], backend_name: str = "offline") -> dic
         "remediation": {"available": remediation_available(finding), "solution": remediation["solution"], "fixed_version": remediation["fixed_version"], "patch_available": remediation["patch_available"], "remediation_action_id": remediation["remediation_action_id"], "remediation_id": remediation["remediation_id"]},
         "confidence": confidence, "conflicts": list(finding["evidence"].get("conflicts") or []),
         "missing_evidence": missing, "council": observations,
-        "ml_review": {"model_used": bool(ml.get("model_used")), "model_version": ml.get("model_version"),
-                      "model_hash": ml.get("model_hash"), "risk_band": ml.get("risk_band"),
-                      "prediction": ml.get("prediction"), "priority_authority": False},
-        "model_provenance": {"backend": backend_name, "mode": "evidence_analysis_only", "priority_authority": False,
-                             "ml_model_used": bool(ml.get("model_used")), "ml_model_hash": ml.get("model_hash")},
+        "model_provenance": {"backend": backend_name, "mode": "evidence_analysis_only", "priority_authority": False},
         "impact_basis": impact_refs, "controls": controls,
     }
 
@@ -197,14 +166,9 @@ def analyze(run_dir: str, *, backend_name: str = "offline") -> dict[str, Any]:
     budget = LLMBudget(limit=configured.max_model_calls)
     model_backend = MockModelBackend() if backend_name == "mock" else None
     model_name = configured.model
-    intelligence_model, intelligence_status = load_active_model()
-    cwe_profiles = load_cwe_profiles() if intelligence_model else {}
 
     def analyze_one(finding: dict[str, Any]) -> dict[str, Any]:
         finding["disposition"] = _status_to_disposition(finding)
-        finding["ml"] = enrich_finding(
-            finding, intelligence_model, unavailable_reason=intelligence_status, profiles=cwe_profiles,
-        )
         finding["analysis"] = _analysis_for(finding, backend_name)
         if model_backend is not None:
             result = chat_structured(

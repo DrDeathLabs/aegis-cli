@@ -1,18 +1,22 @@
 # Changelog
 
-Changes are recorded by release version. This file describes the v0.1.0 release candidate; it is not evidence that a public release has been created.
+Changes are recorded by release version. This file describes the v0.1.0 GitHub Release distributed from the private repository; PyPI publication is not part of this release.
 
-## 0.1.0 — unreleased candidate
+## 0.1.0
+
+Aegis CLI is an AI-assisted enterprise vulnerability prioritization, correlation, and remediation tool. Its AI Council interprets and challenges evidence while deterministic rules retain final P0–P4 authority.
 
 ### Included
 
 - File-first ingestion for the documented provider and generic formats listed in [the provider matrix](docs/PROVIDERS.md).
 - Canonical evidence and provenance, deterministic P0–P4 triage, separate dispositions, correlation, remediation grouping, local replay, and JSON/CSV/HTML/table output.
-- Offline Council observations and a mock analysis backend; neither has authority to assign final priority.
+- AI Council evidence development/challenge and deterministic P0–P4 triage; the Council has no final-priority authority.
+- Evidence-preserving correlation, remediation grouping, longitudinal comparisons, provenance, replay, and JSON/CSV/HTML/table output.
 - Release validation, documentation, CI, and manually gated release automation.
 
 ### Boundaries
 
-- No live commercial provider/API validation is claimed.
-- No public GitHub Release, PyPI publication, or final v0.1.0 release tag was created during this readiness task.
-- See [limitations](docs/LIMITATIONS.md) and the final release-readiness evidence for validation details and remaining operational checks.
+- Local/file-first operation and eight supported provider/import paths; no live commercial-provider API validation is claimed.
+- No ML classifier, corpus-calibration guard, or autonomous remediation.
+- The repository remains private. No PyPI publication is made by this release.
+- See [limitations](docs/LIMITATIONS.md) for the exact v0.1.0 boundaries.
