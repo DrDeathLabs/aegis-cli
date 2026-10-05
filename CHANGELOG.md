@@ -1,6 +1,6 @@
 # Changelog
 
-Changes are recorded by release version. This file describes the v0.1.0 GitHub Release distributed from the private repository; PyPI publication is not part of this release.
+Changes are recorded by release version. The v0.1.0 GitHub Release was initially issued while the repository was private; the repository was made public on 2026-10-05. This release has not been published to PyPI.
 
 ## 0.1.0
 
@@ -18,5 +18,5 @@ Aegis CLI is an AI-assisted enterprise vulnerability prioritization, correlation
 
 - Local/file-first operation and eight supported provider/import paths; no live commercial-provider API validation is claimed.
 - No ML classifier, corpus-calibration guard, or autonomous remediation.
-- The repository remains private. No PyPI publication is made by this release.
+- The repository was private when v0.1.0 was initially issued and was made public on 2026-10-05. No PyPI publication is made by this release.
 - See [limitations](docs/LIMITATIONS.md) for the exact v0.1.0 boundaries.

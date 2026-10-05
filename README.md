@@ -48,7 +48,7 @@ Use the project’s GitHub issue tracker for ordinary support after the reposito
 
 ## Release status
 
-The v0.1.0 distribution channel is GitHub Releases; PyPI publication is not part of this release. The repository remains private unless the owner changes its visibility separately. Review [CHANGELOG.md](CHANGELOG.md), [the feature status](docs/FEATURE_STATUS.md), and [known limitations](docs/LIMITATIONS.md) for the exact scope.
+The v0.1.0 distribution channel is GitHub Releases; this release has not been published to PyPI. The repository is publicly available on GitHub. Review [CHANGELOG.md](CHANGELOG.md), [the feature status](docs/FEATURE_STATUS.md), and [known limitations](docs/LIMITATIONS.md) for the exact scope.
 
 ## Current v0.1.0 scope
 
