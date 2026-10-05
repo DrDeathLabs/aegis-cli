@@ -8,7 +8,7 @@ Provider files
 Raw records and provenance
     ↓ explicit adapters
 Canonical findings
-    ↓ offline/mock evidence analysis (no priority authority)
+    ↓ local public-vulnerability model evidence + offline/mock Council analysis (no priority authority)
 Evidence observations
     ↓ deterministic triage
 Disposition + calculated priority + effective queue priority
@@ -26,13 +26,16 @@ The production CLI stages are `ingest → normalize → analyze → triage → c
 - `src/aegis/ingest/` snapshots inputs, applies bounded selectors, records source accounting, and normalizes accepted records.
 - `src/aegis/models.py` defines the canonical finding/evidence structure.
 - `src/aegis/analysis/` develops structured evidence observations and challenges.
+- `src/aegis/intelligence/` builds a local NVD/EPSS/CISA-backed statistical corpus and attaches advisory, interpretable CVE-level model evidence; its pure-Python inference reads a safe JSON artifact.
 - `src/aegis/triage/` owns final deterministic P0–P4 assignment.
 - `src/aegis/correlation.py` reconciles identities, duplicates, cross-provider observations, recurrence, and conflicts.
 - `src/aegis/remediation.py` groups validated remediation evidence into actions.
 - `src/aegis/reporting.py` produces sanitized JSON, CSV, HTML, and bounded table/findings views.
 - `src/aegis/storage.py` writes local JSON/JSONL stage artifacts, metadata, events, and lineage.
 
-Runtime dependencies are Click and Pydantic plus their installed transitive dependencies; Aegis does not use a database, queue service, or Trident package at runtime. The `_reference/trident-cli` tree is not read or imported by the application.
+Base runtime dependencies are Click and Pydantic plus their installed transitive dependencies. SQLite uses Python's standard library for the local model corpus; scikit-learn and NumPy are optional model-training dependencies (`[ml]` extra), not required for normal import or model inference. No database service or Trident package is used. The Trident tree is not read or imported by the application.
+
+Network access is limited to the explicit `aegis model refresh` lifecycle command. It snapshots and hashes public feeds into user-local storage. Ordinary ingest, analyze, triage, correlation, remediation, reporting, and replay make no feed requests. Missing, invalid, unsupported, or evaluation-ineligible model artifacts produce explicit `model_used=false` evidence and fall back to the existing deterministic evidence path.
 
 ## Identity and correlation
 

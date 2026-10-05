@@ -34,7 +34,8 @@ below are based on implementation behavior and test coverage, not filenames.
 | Correlation and remediation rollups | ADAPT / REFACTOR | Retain stable IDs, canonical members, duplicate/related distinction, and action rollups; replace file/CWE/line clustering with asset/CVE/provider/remediation keys. |
 | CLI workflow, structured reports, events, logging | ADAPT / REFACTOR | Keep workflow clarity, stable machine output, evidence visibility, and progress/event patterns while implementing Aegis commands and schemas. |
 | Scanner subprocesses, source reachability, source-specific tools | DO NOT REUSE | Aegis consumes vulnerability-management evidence; it is not a source scanner in v0.1.0. |
-| Trident evaluation/calibration, VulnBank, scorecard and source fixtures | DO NOT REUSE | These contain source-scanning assumptions or answer-key data and are not evidence for Aegis acceptance. |
+| Trident source-triage calibration labels, trained artifact, VulnBank, scorecards, and source fixtures | DO NOT REUSE | These encode source-scanning assumptions or evaluation/answer-key data and are not evidence for Aegis vulnerability-management behavior. |
+| Public vulnerability corpus construction, statistical profiles, and model lifecycle concepts | ADAPT / REFACTOR | Rebuild from independently selected public vulnerability feeds and Aegis CVE/EPSS semantics; no Trident model, artifact, source features, or label is reused. |
 
 ## Detailed decisions
 
@@ -167,3 +168,27 @@ SARIF/CycloneDX, reachability analyzers, scanner subprocesses, agent source
 exploration, calibration/evaluation answer keys, VulnBank, and PDF rendering
 remain `DO NOT REUSE` because they are source-scanning or out-of-scope product
 behavior; the Aegis destination is intentionally `None` for v0.1.0.
+
+## Aegis v0.1.0 ML reassessment (2026-10-04)
+
+This reassessment corrects the earlier blanket exclusion of Trident's generic
+ML/corpus lifecycle ideas. The current Trident implementation and its
+`docs/CORPUS_GUARD_MODEL.md` were inspected in a read-only local reference checkout.
+No Trident files were changed or imported. The current Aegis repository has no
+runtime path or submodule to that checkout.
+
+| Source path | Purpose | Trident domain assumptions / implementation evidence | Dependencies and test coverage inspected | Decision | Aegis treatment |
+|---|---|---|---|---|---|
+| `backend/trident/calibration/feeds/{nvd,epss,kev,cwe,vulnrichment,osv,exploitdb}.py` | Fetch vulnerability data into Trident's local calibration corpus. | Seven-source feed set includes ExploitDB and Trident-specific joining/refresh behavior. Feed formats, licenses, and exploit semantics are not interchangeable with Aegis. | Feed fetchers, source contracts, and corpus paths read. No Aegis dependency or copied code. | ADAPT / REFACTOR | Aegis selects NVD 2.0 CVE year feeds, FIRST EPSS daily CSV, and CISA KEV only. It hashes snapshots, records source metadata, uses size bounds, and keeps other sources out pending per-source review. |
+| `backend/trident/calibration/corpus/build.py`, `corpus/db.py` | Build CWE-level CVSS, attack-vector/impact, KEV, exploit, and expected-tier profiles. | Profiles aggregate source-scanner calibration context by CWE; fields and tier outcomes are Trident-specific. | SQLite corpus schema/build and `docs/CORPUS_GUARD_MODEL.md` inspected; no Aegis schema reuse. | ADAPT / REFACTOR | Aegis creates descriptive CWE statistics over NVD/EPSS/KEV data. Profiles are context, never priority floors/ceilings or source-code class guards. |
+| `backend/trident/calibration/model.py` | Train a `GradientBoostingClassifier` from Trident `expected_tier` profile labels; serialize with joblib; predict source tier/vector classes. | Labels and features are Trident severity/tier, attack vector, CWE profile, and source-review factors. | sklearn/joblib training and prediction code inspected. | DO NOT REUSE | Aegis does not copy the model, feature set, labels, calibration artifact, serialized object, or thresholds. Aegis trains a new regularized logistic model for the public EPSS high-band target from NVD CVE facts and emits advisory probability plus coefficient contributions in a hash-checked JSON artifact. |
+| `backend/trident/model_manager.py`, `backend/trident/calibration/paths.py`, `docs/CORPUS_GUARD_MODEL.md` | User-local status/path/refresh/build/train/info/reset lifecycle and offline cache behavior. | Trident-specific environment variables, cache paths, and joblib metadata handling. | Lifecycle manager and documentation inspected. | ADAPT / REFACTOR | Aegis defines its own CLI, storage path, model schema, feed manifests, failure handling, and explicit reset confirmation. Normal processing is offline; invalid/ineligible models degrade with `model_used=false`. |
+| `backend/trident/triage.py` corpus guard and `backend/trident/calibration/discover.py` | Apply profile-derived expected tiers as deterministic caps/floors and calibrate source triage. | Final semantics are source review tiers, reachability, and source classes; profiles can adjust Trident priority. | Guard pipeline and profile lookups inspected. | DO NOT REUSE | Aegis ML/CWE profiles do not change P0–P4. Neither model nor Council has final priority authority; Aegis deterministic triage remains authoritative. |
+
+The Aegis implementation is independently maintained in `src/aegis/intelligence/`.
+Its model target is current EPSS `>=0.10`; observed EPSS, KEV, provider
+identity, controls, and enterprise asset context are excluded from model
+features and retained separately. Training uses a chronological CVE-publication
+split and reports comparison with a temporal prevalence baseline. This is not a
+claim of prospective or live-provider validation. See `docs/ML_MODEL.md` and
+`docs/MODEL_DATA.md`.

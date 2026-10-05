@@ -19,6 +19,13 @@ The installed entry point is `aegis`. `python -m aegis.cli` is equivalent when t
 | `aegis run-all INPUT...` | Run ingest through remediation. Options: `--run-dir PATH`, `--provider auto|NAME`, repeatable Generic JSON `--selector`. |
 | `aegis replay-export --findings FILE --output FILE` | Export a canonical findings file with schema and content hash. |
 | `aegis replay-validate ARTIFACT` | Validate a replay artifact without recomputing decisions. Invalid artifacts return nonzero. |
+| `aegis model status` | Inspect local feed/corpus/model state without network access. |
+| `aegis model refresh [--start-year YEAR] [--end-year YEAR] [--force] [--seed N] [--yes]` | Explicitly download bounded NVD year feeds, current EPSS, and CISA KEV; build profiles, train, and temporally evaluate. Requires the optional `[ml]` extra for fitting. |
+| `aegis model build` | Rebuild the local SQLite corpus and CWE statistical profiles from cached public feeds without network access. |
+| `aegis model train [--seed N]` | Train/evaluate from the local corpus without network access; requires `[ml]`. |
+| `aegis model info` | Show model schema, hash, evaluation, feature importance, and model authority boundary. |
+| `aegis model path` | Show the user-local Aegis intelligence data directory. |
+| `aegis model reset [--yes]` | Confirm and remove recognized local feed caches, corpus, model, and evaluation output. |
 
 There is no parent command named `replay`; use the two replay commands above.
 

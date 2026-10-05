@@ -14,6 +14,9 @@ The principal sensitive assets are imported vulnerability records, provider-nati
 - Stage outputs carry lineage. Upstream reruns invalidate downstream outputs; `run-all` stops on terminal failure/rejection.
 - Default reports omit the complete raw source record and redact local path fields. `--include-raw` is a deliberate internal export and has no role-based permission enforcement.
 - Triage is deterministic from typed structured evidence. Council/model outputs cannot assign final P0–P4.
+- The optional model artifact is bounded, schema-versioned JSON with an integrity hash; Aegis does not deserialize pickle/joblib in normal inference. Corrupt or unsupported artifacts are not used.
+- Network access to public NVD, EPSS, and CISA KEV sources occurs only after the operator invokes `aegis model refresh`. Downloads are size-limited and atomically replaced, then retained with SHA-256/provenance in user-local storage. Normal processing is offline.
+- `aegis model reset` deletes only the known Aegis corpus/model/evaluation files and recognized feed-cache names under the configured Aegis data directory; it does not recursively remove arbitrary directory contents.
 
 ## Operator responsibilities
 

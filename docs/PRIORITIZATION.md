@@ -2,6 +2,8 @@
 
 Aegis calculates P0–P4 deterministically from normalized structured evidence. It does not ask an LLM to choose the final tier and it does not reduce all source signals to one opaque score. Every decision preserves drivers, guard results, evidence provenance, conflicts, and missing context.
 
+The optional ML layer adds a separately labeled estimate of whether a CVE's current public EPSS score belongs to the `>=0.10` band, plus descriptive CWE corpus statistics. It does not replace or rewrite observed EPSS, KEV, exploit maturity, provider-native scores, controls, exposure, or asset/business context. It is not consumed as a priority override; the deterministic engine remains authoritative.
+
 ## Independent dimensions
 
 The rule engine keeps technical impact, source severity, CVSS, provider risk, EPSS, KEV, active exploitation, exploit maturity, external exposure, target/business criticality, controls/isolation, disposition, and evidence confidence distinct. High CVSS describes technical impact; it does not alone create urgent priority. Provider-native severity uses that provider's semantics and is not automatically reinterpreted as CVSS.
